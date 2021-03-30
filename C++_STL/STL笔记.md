@@ -105,5 +105,63 @@
 
 + vector::pop_back(),删除 vector 中的最后一个元素,有效地将容器 size 减少一个。
 
-  
++ vector::insert,在指定元素前插入新元素。注意插入可能引起重新分配，且因vector是基于数组，所以末尾或开头之外的位置进行插入操作均会引起其他元素的移动，尽量避免此操作，因为这种操作相对低效。*注：插入后it可能将失效，需要去获取新的，在容器最后插入且不超出容量的情况下不it不会失效。*
+
+  ```c++
+  vector<int> v1(10,1);
+  vector<int> v2 = {1,2,3};
+  vector<int>::iterator it;
+  it = v1.begin();
+  v1.insert(it,66);
+  //"it" no longer valid, need to get a new one
+  cout<< "v1: ";for(auto i:v1)cout<<i<<" ";cout<<endl;
+  it = v1.begin() + 1;
+  v1.insert(it,v2.begin(),v2.end());
+  cout<< "v1: ";for(auto i:v1)cout<<i<<" ";cout<<endl;
+  it = v1.begin() + 4;
+  v1.insert(it,2,99);
+  cout<< "v1: ";for(auto i:v1)cout<<i<<" ";cout<<endl;
+  it = v1.begin() + 6;
+  int ar[3] = {123,456,789};
+  v1.insert(it,ar,ar+3);
+  cout<< "v1: ";for(auto i:v1)cout<<i<<" ";cout<<endl;
+  ```
+
+  Result:
+
+  v1: 66 1 1 1 1 1 1 1 1 1 1 
+  v1: 66 1 2 3 1 1 1 1 1 1 1 1 1 1 
+  v1: 66 1 2 3 99 99 1 1 1 1 1 1 1 1 1 1 
+  v1: 66 1 2 3 99 99 123 456 789 1 1 1 1 1 1 1 1 1 1 
+  v1: 66 1 2 3 99 99 123 456 789 1 1 1 1 1 1 1 1 1 1 88 
+  789
+
++ vector::erase，删除单个元素或一系列元素([first,last])，同样因为基于数组，所以被擦除元素后可能会导致vector的部分元素重新定位，所以相对list、forward_list做erase操作更低效。
+
++ vector::swap,通过 x 的内容交换容器的内容,x 是另一个相同类型的 vector 对象。尺寸可能不同。
+
++ vector::clear，从 vector 中删除所有的元素(被销毁),留下 size 为 0 的容器。不保证重新分配,并且由于调用此函数, vector 的 capacity 不保证发生变化。强制重新分配的典型替代方法是使用 swap: vector<T>().swap(x);
+
+  ```c++
+  v1.clear();v2.clear();
+  cout<<"capacity of v1: "<<v1.capacity()<<endl;
+  cout<<"capacity of v2: "<<v2.capacity()<<endl;
+  vector<int>().swap(v1);
+  vector<int>().swap(v2);
+  cout<<"capacity of v1: "<<v1.capacity()<<endl;
+  cout<<"capacity of v2: "<<v2.capacity()<<endl;
+  ```
+
+  Result: 
+
+  capacity of v1: 3
+  capacity of v2: 20
+  capacity of v1: 0
+  capacity of v2: 0
+
++ vector::emplace，用于在vector容器指定位置之前插入**一个**新的元素。iterator emplace (const_iterator pos, args...);其在args...表示新插入元素的构造函数相对应的多个参数。简单的理解 args...，即被插入元素的构造函数需要多少个参数，那么在 emplace() 的第一个参数的后面，就需要传入相应数量的参数。
+
+  **与insert的区别：简单的理解，就是 emplace() 在插入元素时，是在容器的指定位置直接构造元素，而不是先单独生成，再将其复制（或移动）到容器中。因此，在实际使用中，推荐优先使用 emplace()。**
+
++ vector::get_allocator,allocator， 即空间配置器，用于实现内存的动态分配与释放。那么为什么在vector中定义allocator而不直接使用new和delete呢？原因便是减少开销。我们知道，new和delete申请与释放内存的开销是比较大的。如果多次new与delete会使程序的效率大大降低。这时开发者很聪明，定义了一个allocator来实现内存的管理。
 

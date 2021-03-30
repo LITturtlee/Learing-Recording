@@ -1,8 +1,14 @@
 package com.company;
 
-public class Main {
+import java.io.Console;
 
+public class Main {
+    static int i = 99;
     public static void main(String[] args) {
-	// write your code here
+        int a;
+        a = 10;
+        i = 9;
+        System.out.print(a);
+        System.out.print(i);
     }
 }

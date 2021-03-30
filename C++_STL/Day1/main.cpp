@@ -77,41 +77,93 @@ int main() {
 #endif
 
 #ifdef VECTOR
-    vector<int> v1;
-    vector<int> v2(5,55);
+//    vector<int> v1;
+//    vector<int> v2(5,55);
+//    vector<int> v3;
+//    v3.resize(10);
+//    vector<int> v4;
+//    v4.reserve(10);
+//    vector<int> v5(v2.begin(),v2.end());
+//    cout<<"size of v1 : "<<v1.size()<<"   "<<"size of v2 : "<<v2.size()<<"   "<<"size of v3 : "<<v3.size()<<"   "<<"size of v4 : "<<v4.size()<<"   "<<endl;
+//    cout<<"max_size of v1 : "<<v1.max_size()<<"   "<<"max_size of v2 : "<<v2.max_size()<<"   "<<"max_size of v3 : "<<v3.max_size()<<"   "<<"max_size of v4 : "<<v4.max_size()<<"   "<<endl;
+//    cout<<"capacity of v1 : "<<v1.capacity()<<"   "<<"capacity of v2 : "<<v2.capacity()<<"   "<<"capacity of v3 : "<<v3.capacity()<<"   "<<"capacity of v4 : "<<v4.capacity()<<"   "<<endl;
+//    cout<<"v1: ";for(auto  it= v1.begin();it!=v1.end();it++)cout<<*it<<" ";cout<<endl;
+//    cout<<"v2: ";for(auto  it= v2.begin();it!=v2.end();it++)cout<<*it<<" ";cout<<endl;
+//    cout<<"v3: ";for(auto  it= v3.begin();it!=v3.end();it++)cout<<*it<<" ";cout<<endl;
+//    cout<<"v4: ";for(auto  it= v4.begin();it!=v4.end();it++)cout<<*it<<" ";cout<<endl;
+//    for(int i=0;i<5;i++){
+//        v1.push_back(i);v2.push_back(i);v3.push_back(i);v4.push_back(i);
+//    }
+//    cout<<"size of v1 : "<<v1.size()<<"   "<<"size of v2 : "<<v2.size()<<"   "<<"size of v3 : "<<v3.size()<<"   "<<"size of v4 : "<<v4.size()<<"   "<<endl;
+//    cout<<"max_size of v1 : "<<v1.max_size()<<"   "<<"max_size of v2 : "<<v2.max_size()<<"   "<<"max_size of v3 : "<<v3.max_size()<<"   "<<"max_size of v4 : "<<v4.max_size()<<"   "<<endl;
+//    cout<<"capacity of v1 : "<<v1.capacity()<<"   "<<"capacity of v2 : "<<v2.capacity()<<"   "<<"capacity of v3 : "<<v3.capacity()<<"   "<<"capacity of v4 : "<<v4.capacity()<<"   "<<endl;
+//    cout<<"v1: ";for(auto  it= v1.begin();it!=v1.end();it++)cout<<*it<<" ";cout<<endl;
+//    cout<<"v2: ";for(auto  it= v2.begin();it!=v2.end();it++)cout<<*it<<" ";cout<<endl;
+//    cout<<"v3: ";for(auto  it= v3.begin();it!=v3.end();it++)cout<<*it<<" ";cout<<endl;
+//    cout<<"v4: ";for(auto  it= v4.begin();it!=v4.end();it++)cout<<*it<<" ";cout<<endl;
+//    v1.shrink_to_fit();v2.shrink_to_fit();v3.shrink_to_fit();v4.shrink_to_fit();
+//    cout<<"size of v1 : "<<v1.size()<<"   "<<"size of v2 : "<<v2.size()<<"   "<<"size of v3 : "<<v3.size()<<"   "<<"size of v4 : "<<v4.size()<<"   "<<endl;
+//    //cout<<"max_size of v1 : "<<v1.max_size()<<"   "<<"max_size of v2 : "<<v2.max_size()<<"   "<<"max_size of v3 : "<<v3.max_size()<<"   "<<"max_size of v4 : "<<v4.max_size()<<"   "<<endl;
+//    cout<<"capacity of v1 : "<<v1.capacity()<<"   "<<"capacity of v2 : "<<v2.capacity()<<"   "<<"capacity of v3 : "<<v3.capacity()<<"   "<<"capacity of v4 : "<<v4.capacity()<<"   "<<endl;
+//    cout<<"v1: ";for(auto  it= v1.begin();it!=v1.end();it++)cout<<*it<<" ";cout<<endl;
+//    cout<<"v2: ";for(auto  it= v2.begin();it!=v2.end();it++)cout<<*it<<" ";cout<<endl;
+//    cout<<"v3: ";for(auto  it= v3.begin();it!=v3.end();it++)cout<<*it<<" ";cout<<endl;
+//    cout<<"v4: ";for(auto  it= v4.begin();it!=v4.end();it++)cout<<*it<<" ";cout<<endl;
+//    for(int i=0;i<v1.size();i++){
+//        cout<<*(v1.data()+i);
+//    }
+    //=================================
+    vector<int> v1(10,1);
+    vector<int> v2 = {1,2,3};
+    vector<int>::iterator it;
+    it = v1.begin();
+    v1.insert(it,66);
+    //"it" no longer valid, need to get a new one
+    cout<< "v1: ";for(auto i:v1)cout<<i<<" ";cout<<endl;
+    it = v1.begin() + 1;
+    v1.insert(it,v2.begin(),v2.end());
+    cout<< "v1: ";for(auto i:v1)cout<<i<<" ";cout<<endl;
+    it = v1.begin() + 4;
+    v1.insert(it,2,99);
+    cout<< "v1: ";for(auto i:v1)cout<<i<<" ";cout<<endl;
+    it = v1.begin() + 6;
+    int ar[3] = {123,456,789};
+    v1.insert(it,ar,ar+3);
+    cout<< "v1: ";for(auto i:v1)cout<<i<<" ";cout<<endl;
+    it = v1.begin() + 8;
+    v1.push_back(88);
+    cout<< "v1: ";for(auto i:v1)cout<<i<<" ";cout<<endl;
+    cout<<"capacity of v1: "<<v1.capacity()<<endl;
+    cout << *it<<endl;
+    cout<<"capacity of v2: "<<v2.capacity()<<endl;
+//    auto itor = v2.begin();
+//    cout<< *itor <<endl;
+//    v2.push_back(100);
+//    cout<< *itor <<endl;
+    it = v1.end();                  //end is not the last element
+    v1.erase(it-1);
+    cout<< "v1: ";for(auto i:v1)cout<<i<<" ";cout<<endl;
+    it = v1.end();
+    v1.erase(it-5,it-1);
+    cout<< "v1: ";for(auto i:v1)cout<<i<<" ";cout<<endl;
+    v1.swap(v2);
+    cout<< "v2: ";for(auto i:v2)cout<<i<<" ";cout<<endl;
+    cout<< "v1: ";for(auto i:v1)cout<<i<<" ";cout<<endl;
+
+
+    v1.clear();v2.clear();
+    cout<<"capacity of v1: "<<v1.capacity()<<endl;
+    cout<<"capacity of v2: "<<v2.capacity()<<endl;
+    vector<int>().swap(v1);
+    vector<int>().swap(v2);
+    cout<<"capacity of v1: "<<v1.capacity()<<endl;
+    cout<<"capacity of v2: "<<v2.capacity()<<endl;
+
     vector<int> v3;
-    v3.resize(10);
-    vector<int> v4;
-    v4.reserve(10);
-    vector<int> v5(v2.begin(),v2.end());
-    cout<<"size of v1 : "<<v1.size()<<"   "<<"size of v2 : "<<v2.size()<<"   "<<"size of v3 : "<<v3.size()<<"   "<<"size of v4 : "<<v4.size()<<"   "<<endl;
-    cout<<"max_size of v1 : "<<v1.max_size()<<"   "<<"max_size of v2 : "<<v2.max_size()<<"   "<<"max_size of v3 : "<<v3.max_size()<<"   "<<"max_size of v4 : "<<v4.max_size()<<"   "<<endl;
-    cout<<"capacity of v1 : "<<v1.capacity()<<"   "<<"capacity of v2 : "<<v2.capacity()<<"   "<<"capacity of v3 : "<<v3.capacity()<<"   "<<"capacity of v4 : "<<v4.capacity()<<"   "<<endl;
-    cout<<"v1: ";for(auto  it= v1.begin();it!=v1.end();it++)cout<<*it<<" ";cout<<endl;
-    cout<<"v2: ";for(auto  it= v2.begin();it!=v2.end();it++)cout<<*it<<" ";cout<<endl;
-    cout<<"v3: ";for(auto  it= v3.begin();it!=v3.end();it++)cout<<*it<<" ";cout<<endl;
-    cout<<"v4: ";for(auto  it= v4.begin();it!=v4.end();it++)cout<<*it<<" ";cout<<endl;
-    for(int i=0;i<5;i++){
-        v1.push_back(i);v2.push_back(i);v3.push_back(i);v4.push_back(i);
-    }
-    cout<<"size of v1 : "<<v1.size()<<"   "<<"size of v2 : "<<v2.size()<<"   "<<"size of v3 : "<<v3.size()<<"   "<<"size of v4 : "<<v4.size()<<"   "<<endl;
-    cout<<"max_size of v1 : "<<v1.max_size()<<"   "<<"max_size of v2 : "<<v2.max_size()<<"   "<<"max_size of v3 : "<<v3.max_size()<<"   "<<"max_size of v4 : "<<v4.max_size()<<"   "<<endl;
-    cout<<"capacity of v1 : "<<v1.capacity()<<"   "<<"capacity of v2 : "<<v2.capacity()<<"   "<<"capacity of v3 : "<<v3.capacity()<<"   "<<"capacity of v4 : "<<v4.capacity()<<"   "<<endl;
-    cout<<"v1: ";for(auto  it= v1.begin();it!=v1.end();it++)cout<<*it<<" ";cout<<endl;
-    cout<<"v2: ";for(auto  it= v2.begin();it!=v2.end();it++)cout<<*it<<" ";cout<<endl;
-    cout<<"v3: ";for(auto  it= v3.begin();it!=v3.end();it++)cout<<*it<<" ";cout<<endl;
-    cout<<"v4: ";for(auto  it= v4.begin();it!=v4.end();it++)cout<<*it<<" ";cout<<endl;
-    v1.shrink_to_fit();v2.shrink_to_fit();v3.shrink_to_fit();v4.shrink_to_fit();
-    cout<<"size of v1 : "<<v1.size()<<"   "<<"size of v2 : "<<v2.size()<<"   "<<"size of v3 : "<<v3.size()<<"   "<<"size of v4 : "<<v4.size()<<"   "<<endl;
-    //cout<<"max_size of v1 : "<<v1.max_size()<<"   "<<"max_size of v2 : "<<v2.max_size()<<"   "<<"max_size of v3 : "<<v3.max_size()<<"   "<<"max_size of v4 : "<<v4.max_size()<<"   "<<endl;
-    cout<<"capacity of v1 : "<<v1.capacity()<<"   "<<"capacity of v2 : "<<v2.capacity()<<"   "<<"capacity of v3 : "<<v3.capacity()<<"   "<<"capacity of v4 : "<<v4.capacity()<<"   "<<endl;
-    cout<<"v1: ";for(auto  it= v1.begin();it!=v1.end();it++)cout<<*it<<" ";cout<<endl;
-    cout<<"v2: ";for(auto  it= v2.begin();it!=v2.end();it++)cout<<*it<<" ";cout<<endl;
-    cout<<"v3: ";for(auto  it= v3.begin();it!=v3.end();it++)cout<<*it<<" ";cout<<endl;
-    cout<<"v4: ";for(auto  it= v4.begin();it!=v4.end();it++)cout<<*it<<" ";cout<<endl;
-    for(int i=0;i<v1.size();i++){
-        cout<<*(v1.data()+i);
-    }
+    v3.emplace(v3.begin(),99);
+    v3.emplace_back(66);
+    cout<< "v3: ";for(auto i:v3)cout<<i<<" ";cout<<endl;
+
 
 #endif
     return 0;
