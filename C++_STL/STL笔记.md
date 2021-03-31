@@ -2,6 +2,10 @@
 
 ### Day1
 
+### 迭代器
+
++ 目的：容器都会用到排序、查找、求和等操作，利用迭代器作为中介将不同容器内部差异进行封装，利用泛形技术实现容器与算法的分离。简单来讲,迭代器和 C++ 的指针非常类似,它可以是需要的任意类型,通过迭代器可以指向容器中的某个元素,如果需要,还可以对该元素进行读/写操作。
+
 #### array
 
 + 连续存储,不能动态地扩大或缩小。
@@ -51,8 +55,9 @@
   cout<<"v4: ";for(auto  it= v4.begin();it!=v4.end();it++)cout<<*it<<" ";cout<<endl;
   ```
 
-  result:
-
+  ```
+result:
+  
   size of v1 : 0   size of v2 : 5   size of v3 : 10   size of v4 : 0   
   capacity of v1 : 0   capacity of v2 : 5   capacity of v3 : 10   capacity of v4 : 10   
   v1: 
@@ -64,16 +69,17 @@
   v1: 0 1 2 3 4 
   v2: 0 0 0 0 0 0 1 2 3 4 
   v3: 0 0 0 0 0 0 0 0 0 0 0 1 2 3 4 
-  v4: 0 1 2 3 4 
-
-  Process finished with exit code 0
+v4: 0 1 2 3 4 
+  ```
 
 + vector::operator=,将新内容分配给容器,替换其当前内容,并相应地修改其大小。
 
 + vector::max_size,返回该 vector 可容纳的元素的最大数量。这是容器可以达到的最大潜在大小,但容器无法保证能够达到该大小:在达到该大小之前的任何时间,仍然无需分配存储。
 
+  ```
   size of v1 : 0   size of v2 : 5   size of v3 : 10   size of v4 : 0   
-  max_size of v1 : 2305843009213693951   max_size of v2 : 2305843009213693951   max_size of v3 : 2305843009213693951   max_size of v4 : 2305843009213693951   
+  max_size of v1 : 2305843009213693951   max_size of v2 : 2305843009213693951   max_size of v3 : 2305843009213693951   max_size of v4 : 2305843009213693951  
+  ```
 
 + vector::resize,调整容器的大小,使其包含 n 个元素。n>size,内容将被缩小到前 n 个元素,并销毁它们。n<size,以val(默认为0)填充容器到达n的大小。n>capacity(容量)将会重新分配。
 
@@ -127,20 +133,30 @@
   cout<< "v1: ";for(auto i:v1)cout<<i<<" ";cout<<endl;
   ```
 
+  ```
   Result:
-
+  
   v1: 66 1 1 1 1 1 1 1 1 1 1 
   v1: 66 1 2 3 1 1 1 1 1 1 1 1 1 1 
   v1: 66 1 2 3 99 99 1 1 1 1 1 1 1 1 1 1 
   v1: 66 1 2 3 99 99 123 456 789 1 1 1 1 1 1 1 1 1 1 
   v1: 66 1 2 3 99 99 123 456 789 1 1 1 1 1 1 1 1 1 1 88 
   789
+  ```
 
-+ vector::erase，删除单个元素或一系列元素([first,last])，同样因为基于数组，所以被擦除元素后可能会导致vector的部分元素重新定位，所以相对list、forward_list做erase操作更低效。
+  
+
++ vector::erase，删除单个元素或一系列元素([first,last])，同样因为基于数组，所以被擦除元素后可能会导致vector的部分元素重新定位，所以相对list、forward_list做erase操作更低效(因为list、forward_list是链表)。
+
++ vector::remove，删除容器中与指定元素相同的元素，返回最后一个元素下一个位置的迭代器。remove() 的实现原是,在遍历容器中的元素时,一旦遇到目标元素,就做上标记,然后继续遍历,直到找到一个非目标元素,即用此元素将最先做标记的位置覆盖掉,同时将此非目标元素所在的位置也做上标记,等待找到新的非目标元素将其覆盖。
+
++ vector其他删除方式：swap()+pop_back()
 
 + vector::swap,通过 x 的内容交换容器的内容,x 是另一个相同类型的 vector 对象。尺寸可能不同。
 
 + vector::clear，从 vector 中删除所有的元素(被销毁),留下 size 为 0 的容器。不保证重新分配,并且由于调用此函数, vector 的 capacity 不保证发生变化。强制重新分配的典型替代方法是使用 swap: vector<T>().swap(x);
+
+  还可以用swap::vector<T>(x).swap(x)清除x中多余容量。
 
   ```c++
   v1.clear();v2.clear();
@@ -152,16 +168,40 @@
   cout<<"capacity of v2: "<<v2.capacity()<<endl;
   ```
 
+  ```
   Result: 
-
+  
   capacity of v1: 3
   capacity of v2: 20
   capacity of v1: 0
   capacity of v2: 0
+  ```
+
+  
 
 + vector::emplace，用于在vector容器指定位置之前插入**一个**新的元素。iterator emplace (const_iterator pos, args...);其在args...表示新插入元素的构造函数相对应的多个参数。简单的理解 args...，即被插入元素的构造函数需要多少个参数，那么在 emplace() 的第一个参数的后面，就需要传入相应数量的参数。
 
   **与insert的区别：简单的理解，就是 emplace() 在插入元素时，是在容器的指定位置直接构造元素，而不是先单独生成，再将其复制（或移动）到容器中。因此，在实际使用中，推荐优先使用 emplace()。**
 
 + vector::get_allocator,allocator， 即空间配置器，用于实现内存的动态分配与释放。那么为什么在vector中定义allocator而不直接使用new和delete呢？原因便是减少开销。我们知道，new和delete申请与释放内存的开销是比较大的。如果多次new与delete会使程序的效率大大降低。这时开发者很聪明，定义了一个allocator来实现内存的管理。
+
+### Day2
+
+#### deque
+
++ 和 vector 非常相似,区别在于使用该容器不仅尾部插入和删除元素高效,在头部插入或删除元素也同样高效,时间复杂度都是 O(1) 常数阶,但是在容器中某一位置处插入或删除元素,时间复杂度为 O(n) 线性阶;**deque容器中存储元素并不能保证所有元素都存储在连续空间中**
+
++ 相对vector增加实现了在容器头部添加和删除元素的成员函数，同时删除了capacity()、reserve()、data()成员函数。
+
++ deque底层存储机制
+
+  ![image-20210331233603267](/home/ng/.config/Typora/typora-user-images/image-20210331233603267.png)
+
+  ![image-20210331234713863](/home/ng/.config/Typora/typora-user-images/image-20210331234713863.png)
+
+  由此deque中无data()，deque不保证元素连续存储，所以不要用指针访问deque。
+
++ at与operator[]区别是是否检查边界，为什么operator[]不检测边界呢？因为效率，每次访问元素都检测边界相对低效。
+
++ 
 
