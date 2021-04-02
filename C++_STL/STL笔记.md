@@ -203,5 +203,26 @@ v4: 0 1 2 3 4
 
 + at与operator[]区别是是否检查边界，为什么operator[]不检测边界呢？因为效率，每次访问元素都检测边界相对低效。
 
-+ 
++ 删除操作：pop_front()、pop_back()、erase()、swap()+pop_back()
+
+#### List
+
++ STL list 容器,又称双向链表容器,即该容器的底层是以双向链表的形式实现的。这意味着,list 容器中的元素可以分散存储在内存空间里,而不是必须存储在一整块连续的内存空间中。实际场景中,如何需要对序列进行大量添加或删除元素的操作,而直接访问元素的需求却很少,这种情况建议使用 list 容器存储序列。
+
++ 只能运用迭代器才能访问list容器中存储的各个元素。list的迭代器与array、vector、deque有所不同，list迭代器为双向迭代器，不支持从随机访问。 这意味着,假设 p1 和 p2 都是双向迭代器,则它们支持使用 ++p1、 p1++、 p1--、 p1++、 *p1、 p1==p2 以及 p1!=p2 运算符,但不支持以下操作：
+
+  + p1[i]:不能通过下标访问 list 容器中指定位置处的元素。
+  + p1-=i、 p1+=i、 p1+i 、p1-i:双向迭代器 p1 不支持使用 -=、+=、+、- 运算符。
+  + p1<p2、 p1>p2、 p1<=p2、 p1>=p2:双向迭代器 p1、p2 不支持使用 <、 >、 <=、 >= 比较运算符。
+
+  **值的注意的是list的insert、splice等操作不会引起list迭代器失效，甚至执行删除操作，仅对被删除元素的迭代器失效，其余迭代器不受影响。**
+
++ list::splice()，将其他 list 容器存储的多个元素添加到当前 list 容器的指定位置处，有以下三种调用形似。
+
+  + void splice (iterator position, list& x);此格式的 splice() 方法的功能是,将 x 容器中存储的所有元素全部移动当前 list 容器中
+    position 指明的位置处。
+  + void splice (iterator position, list& x, iterator i);此格式的 splice() 方法的功能是将 x 容器中 i 指向的元素移动到当前容器中 position指明的位置处。
+  + void splice (iterator position, list& x, iterator first, iterator last);此格式的 splice() 方法的功能是将 x 容器 [first, last)**左闭右开** 范围内所有的元素移动到当前容器 position 指明的位置处。
+
+  我们知道,list 容器底层使用的是链表存储结构,splice() 成员方法移动元素的方式是,将存储该元素的节点从 list 容器底层的链表中摘除,然后再链接到当前 list 容器底层的链表中。这意味着,当使用 splice() 成员方法将 x 容器中的元素添加到当前容器的同时,该元素会从 x 容器中删除。
 
