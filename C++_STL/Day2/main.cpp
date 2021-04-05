@@ -1,13 +1,14 @@
 #include <iostream>
 #include <deque>
 #include <list>
+#include <forward_list>
 #include <algorithm>
 
 
 using namespace std;
 //#define DEQUE
-#define LIST
-
+//#define LIST
+#define FORWARD_LIST
 int main() {
 #ifdef DEQUE
     int array[] =  {1,2,3,4,5};
@@ -86,6 +87,43 @@ int main() {
     for(auto i :y2){cout<<i<<" ";}cout<<endl;
     for(auto i :y3){cout<<i<<" ";}cout<<endl;
     cout<<x1.size()<<" "<<x2.size()<<" "<<x3.size()<<endl;
+//    ==============delete======================
+    list<int> t1{1,2,3,4,5};
+    list<char> t2{'a','b','c','d'};
+    list<char> t3{'a','a','a','b','a','a','c','c','d','d','d','a'};
+    cout<<t1.size()<<endl;       //no test.capacity()
+    t1.clear();
+    cout<<t1.size()<<endl;
+    for(auto i:t2)cout<<i<<" ";cout<<endl;
+    t2.remove('c');
+    for(auto i:t2)cout<<i<<" ";cout<<endl;
+    for(auto i:t3)cout<<i<<" ";cout<<endl;
+    t3.unique();
+    for(auto i:t3)cout<<i<<" ";cout<<endl;
+    list<int> t4{15,36,7,17,20,39,4,1};
+    for(auto i:t4)cout<<i<<" ";cout<<endl;
+    t4.remove_if([](int value){return value<10;});
+    for(auto i:t4)cout<<i<<" ";cout<<endl;
+
+#endif
+#ifdef FORWARD_LIST
+    forward_list<int> f1{1,3,2,7,5};
+    forward_list<int> f2{4,1,8,9,0};
+//    for(auto i : f1)cout<<i<<" ";cout<<endl;
+    f1.sort();
+    for(auto i : f1)cout<<i<<" ";cout<<endl;
+//    for(auto i : f2)cout<<i<<" ";cout<<endl;
+    f2.sort();
+    for(auto i : f2)cout<<i<<" ";cout<<endl;
+    f1.merge(f2);
+    for(auto i : f1)cout<<i<<" ";cout<<endl;
+    f1.reverse();
+    for(auto i : f1)cout<<i<<" ";cout<<endl;
+    forward_list<int>::iterator iter = f1.begin();
+    advance(iter,3);
+    for(iter;iter!=f1.end();iter++){
+        cout<<*iter<<" ";
+    }cout<<endl;
 
 
 #endif

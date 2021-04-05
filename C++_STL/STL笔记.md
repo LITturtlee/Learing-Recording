@@ -217,12 +217,95 @@ v4: 0 1 2 3 4
 
   **值的注意的是list的insert、splice等操作不会引起list迭代器失效，甚至执行删除操作，仅对被删除元素的迭代器失效，其余迭代器不受影响。**
 
-+ list::splice()，将其他 list 容器存储的多个元素添加到当前 list 容器的指定位置处，有以下三种调用形似。
++ **list::splice()**，将其他 list 容器存储的多个元素添加到当前 list 容器的指定位置处，有以下三种调用形似。(都是用迭代器实现)(splice拼接)
 
   + void splice (iterator position, list& x);此格式的 splice() 方法的功能是,将 x 容器中存储的所有元素全部移动当前 list 容器中
-    position 指明的位置处。
-  + void splice (iterator position, list& x, iterator i);此格式的 splice() 方法的功能是将 x 容器中 i 指向的元素移动到当前容器中 position指明的位置处。
-  + void splice (iterator position, list& x, iterator first, iterator last);此格式的 splice() 方法的功能是将 x 容器 [first, last)**左闭右开** 范围内所有的元素移动到当前容器 position 指明的位置处。
+    position 指明的位置处。**整体拼接**
+  + void splice (iterator position, list& x, iterator i);此格式的 splice() 方法的功能是将 x 容器中 i 指向的元素移动到当前容器中 position指明的位置处。**单元素拼接**
+  + void splice (iterator position, list& x, iterator first, iterator last);此格式的 splice() 方法的功能是将 x 容器 [first, last)**左闭右开** 范围内所有的元素移动到当前容器 position 指明的位置处。**部分拼接**
 
   我们知道,list 容器底层使用的是链表存储结构,splice() 成员方法移动元素的方式是,将存储该元素的节点从 list 容器底层的链表中摘除,然后再链接到当前 list 容器底层的链表中。这意味着,当使用 splice() 成员方法将 x 容器中的元素添加到当前容器的同时,该元素会从 x 容器中删除。
+  
++ **list删除操作： **list::pop_front()、list::pop_back()、list::erase()、list::clear()、list::remove()、list::unique()、list::remove_if()，接下来着重介绍区别于顺序容器的操作。
+
+  *list::remove(val)*：删除容器中所有等于 val 的元素。*list::unique()*：删除容器中相邻的重复元素,只保留一份。通过调用无参的 unique(),仅能删除相邻重复(也就是相等)的元素,**而通过我们自定义去重的规则,可以更好的满足在不同场景下去重的需求**。
+
+  ```c++
+  list<char> t3{'a','a','a','b','a','a','c','c','d','d','d','a'};
+      for(auto i:t3)cout<<i<<" ";cout<<endl;
+      t3.unique();
+      for(auto i:t3)cout<<i<<" ";cout<<endl;
+  
+  //result：
+  //a a a b a a c c d d d a 
+  //a b a c d a 
+  ```
+
+  *list::remove_if()*：删除容器中满足条件的元素。通过将自定义的谓词函数(不限定参数个数)传给 remove_if() 成员函数,list 容器中能使谓词函数成立的元素都会被删除。
+
+  ```c++
+  list<int> t4{15,36,7,17,20,39,4,1};
+      for(auto i:t4)cout<<i<<" ";cout<<endl;
+      t4.remove_if([](int value){return value<10;});
+      for(auto i:t4)cout<<i<<" ";cout<<endl;
+  
+  //result:
+  //15 36 7 17 20 39 4 1 
+  //15 36 17 20 39 
+  ```
+
+#### forward_list
+
++ forward_list 同list，擅长插入、删除操作，而访问没有array、list效率高。forward_list只能前向迭代，无rbegin、rend。
+
++ forward_list相对list而言，效率高，空间利用率高。效率高是选用forward_list 而弃用 list 容器最主要的原因,换句话说,只要是 list 容器和forward_list 容器都能实现的操作,应优先选择 forward_list 容器。
+
++ 相对list多了几个成员函数：
+
+  merge():合并两个事先已排好序的 forward_list 容器,并且合并之后的 forward_list 容器依然是有序的。
+
+  sort():通过更改容器中元素的位置,将它们进行排序。
+
+  ```c++
+      forward_list<int> f1{1,3,2,7,5};
+      forward_list<int> f2{4,1,8,9,0};
+  //    for(auto i : f1)cout<<i<<" ";cout<<endl;
+      f1.sort();
+      for(auto i : f1)cout<<i<<" ";cout<<endl;
+  //    for(auto i : f2)cout<<i<<" ";cout<<endl;
+      f2.sort();
+      for(auto i : f2)cout<<i<<" ";cout<<endl;
+      f1.merge(f2);
+      for(auto i : f1)cout<<i<<" ";cout<<endl;
+  //result:
+  //1 2 3 5 7 
+  //0 1 4 8 9 
+  //0 1 1 2 3 4 5 7 8 9 
+  //如果不先进行排序,merage的结果
+  //1 3 2 4 1 7 5 8 9 0 
+  ```
+
+  reverse():反转容器中元素的顺序。
+
++ **forward_list**不提供size()函数，为此想要得到当前容器元素的容量就用如下方法：
+
+  ```c++
+  std::forward_list<int> my_words{1,2,3,4};
+  int count = std::distance(std::begin(my_words),std::end(my_words));
+  cout << count;
+  ```
+
++ advance()，forward_list 容器迭代器的移动除了使用 ++ 运算符单步移动,还能使用 advance() 函数
+
+  ```c++
+  //f1 = {9 8 7 5 4 3 2 1 1 0 }  
+  forward_list<int>::iterator iter = f1.begin();
+      advance(iter,3);
+      for(iter;iter!=f1.end();iter++){
+          cout<<*iter<<" ";
+      }cout<<endl;
+  //result:5 4 3 2 1 1 0
+  ```
+
+  
 
