@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ng/Code/Learing-Recording/C++_STL/Day3/main.cpp
+iostream
+-
+utility
+-
+string
+-
+map
+-
+

@@ -307,5 +307,67 @@ v4: 0 1 2 3 4
   //result:5 4 3 2 1 1 0
   ```
 
+
+### Day3
+
+关联容器：map、set、multimap、multiset
+
+哈希容器：unordered_map、unordered_multimap、unordered_set、unordered_multiset
+
+#### pair
+
++ 初始化：
+
+  ```c++
+      pair<string,string> p1;
+      pair<string,string> p2("key","value");
+      pair<string,string> p3(p2);
+      cout<<p1.first<<" "<<p1.second;
+      cout<<p2.first<<" "<<p2.second;
+      cout<<p3.first<<" "<<p3.second;
   
+  //result：
+  // 
+  //key value
+  //key value
+  ```
+
+  其他初始化方式：调用移动构造、使用右值引用参数创建pair对象。
+
+  *make_pair(&T a, &T b)*可以生成一个pair对象，也可用此来初始化。
+
+  
+
++ pair 对象重载了 <、<=、>、>=、==、!= 这 6 的运算符，其运算规则是：对于进行比较的 2 个 pair 对象,先比较 pair.first 元素的大小,如果相等则继续比较 pair.second 元素的大小。
+
++ pair提供了swap()成员函数。
+
+#### map 
+
+map是一种关联容器，其存储的都是pair对象。
+
++ map内默认排序是对键值的大小进行升序排序。实际运用过程中可以自定义排序规则。map使用过程中键值是不可修改的。即map中存储的是pair<const K,T>
+
++ ```c++
+  map<string,int>m1;
+  map<string,int>m2{{"k1",1},{"k2",2},{"k3",3}};
+  map<string,int>m3(m2);
+  map<string,int>m4{make_pair("k4",4),make_pair("k5",5)};
+  map<string,int>m5{++m2.begin(),m2.end()};
+  map<string,int,greater<string>> m6{{"k6",6},{"k7",7}};
+  ```
+
++ find(key)，返回对应键值迭代器。**map中迭代器是双向迭代器**
+
+  ```c++
+  map<string,int>m2{{"k1",1},{"k2",2},{"k3",3}};
+  auto iter = m2.find("k2");
+  if(iter!=m2.end())cout<<iter->first<<" "<<iter->second;
+  //reuslt:
+  //k2 2
+  ```
+
++ lower_bound(key)，返回一个指向当前 map 容器中第一个大于或等于 key 的键值对的双向迭代器。*upper_bound(key)、equal_range(key)有类似功能。
+
++ 插入、删除，
 
