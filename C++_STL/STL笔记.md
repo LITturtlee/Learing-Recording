@@ -217,6 +217,8 @@ v4: 0 1 2 3 4
 
   **值的注意的是list的insert、splice等操作不会引起list迭代器失效，甚至执行删除操作，仅对被删除元素的迭代器失效，其余迭代器不受影响。**
 
+  **特别注意，非连续存储的容器，删除插入等操作的确不会引起迭代器失效，但是会出现迭代器错位的情况。比如删除前给迭代器变量iter赋值容器的begin，删除begin后，iter不再指向容器的begin，指向的是内存中脏数据。**
+
 + **list::splice()**，将其他 list 容器存储的多个元素添加到当前 list 容器的指定位置处，有以下三种调用形似。(都是用迭代器实现)(splice拼接)
 
   + void splice (iterator position, list& x);此格式的 splice() 方法的功能是,将 x 容器中存储的所有元素全部移动当前 list 容器中
@@ -262,7 +264,7 @@ v4: 0 1 2 3 4
 
 + 相对list多了几个成员函数：
 
-  merge():合并两个事先已排好序的 forward_list 容器,并且合并之后的 forward_list 容器依然是有序的。
+  **merge()**:合并两个事先已排好序的 forward_list 容器,并且合并之后的 forward_list 容器依然是有序的。
 
   sort():通过更改容器中元素的位置,将它们进行排序。
 
@@ -295,7 +297,7 @@ v4: 0 1 2 3 4
   cout << count;
   ```
 
-+ advance()，forward_list 容器迭代器的移动除了使用 ++ 运算符单步移动,还能使用 advance() 函数
++ **advance()**，forward_list 容器迭代器的移动除了使用 ++ 运算符单步移动,还能使用 advance() 函数
 
   ```c++
   //f1 = {9 8 7 5 4 3 2 1 1 0 }  
@@ -346,9 +348,21 @@ v4: 0 1 2 3 4
 
 map是一种关联容器，其存储的都是pair对象。
 
-+ map内默认排序是对键值的大小进行升序排序。实际运用过程中可以自定义排序规则。map使用过程中键值是不可修改的。即map中存储的是pair<const K,T>
++ map内默认排序是对键值的大小进行升序排序。**实际运用过程中可以自定义排序规则，**声明map对象时可以在指定下面的类compare。
 
-+ ```c++
+  ```c++
+  template < class Key,	// 指定键(key)的类型
+  	class T, // 指定值(value)的类型
+  	class Compare = less<Key>, // 指定排序规则
+  	class Alloc = allocator<pair<const Key,T> > // 指定分配器对象的类型
+  	> class map;
+  //eg：
+  map<string,int,greater<string>> myMap;   //降序排列
+  ```
+
+  **map使用过程中键值是不可修改的**。即map中存储的是pair<const K,T>
+
+  ```c++
   map<string,int>m1;
   map<string,int>m2{{"k1",1},{"k2",2},{"k3",3}};
   map<string,int>m3(m2);
@@ -373,7 +387,7 @@ map是一种关联容器，其存储的都是pair对象。
 
 + 查询操作：当用operator[]查询对应键值对时，若容器不含有所查询的键值则会在容器中添加该键，其值编译器自动赋值。相反at()操作则不会创建不存在的键值对，而是抛出异常。**基本目前遇见的容器，at()这个方法都自带边界检测的功能，相应的效率较低。**
 
-+ insert()，插入操作：当使用 insert() 方法向 map 容器的指定位置插入新键值对时,其底层会先将新键值对插入到容器的指定位置,如果其破坏了 map 容器的有序性,该容器会对新键值对的位置进行调整。**指不指定插入位置都有可能会被重新排序。**
++ insert()、emplace()，插入操作：当使用 insert() 方法向 map 容器的指定位置插入新键值对时,其底层会先将新键值对插入到容器的指定位置,如果其破坏了 map 容器的有序性,该容器会对新键值对的位置进行调整。**指不指定插入位置都有可能会被重新排序。**
 
   ```c++
   //1、引用传递一个键值对
@@ -385,6 +399,45 @@ template <class InputIterator>
   void insert (InputIterator first, InputIterator last);
   //4、插入多个键值对
   void insert ({val 1 , val 2 , ...});
+  //emplace,其中参数时指构造新键值对的数据参赛
+  pair<iterator,bool> emplace(Args&&... args);
+  map<string,int> m;
+  m.emplace("key",100);
   ```
   
   返回一个迭代器和一个布尔变量，若成功，迭代器指向val。若失败，迭代器指向容器中相同键值对p，且不会改变p键值对的值。
+  
++ erase(),删除 map 容器指定位置、指定键(key)值或者指定区域内的键值对。即通过键值删除，或者通过迭代器删除一个或指定区域。**用迭代器操作后注意即使更新迭代器的变量。当用迭代器操作时，erase会返回删除元素后的第一个元素的迭代器。**
+
++ 当实现“向 map 容器中添加新键值对元素”的操作时,insert() 成员方法的执行效率更高;而在实现“更新 map 容器指定键值对的值”的操作时,operator[ ] 的效率更高。实现相同的插入操作,**无论是用 emplace() 还是emplace_hint(),都比 insert() 方法的效率高。**
+
+#### multimap
+
++ 和 map 容器的区别在于,multimap 容器中可以同时**存储多(≥2)个键相同的键值对**。
+
++ 和 map 容器相比,multimap 未提供 at() 成员方法,也没有重载 [] 运算符。
+
++ 相对map，lower_bound()、upper_bound()、equal_range() 以及 count() 成员方法会经常用到。
+
+  ```c++
+      multimap<char,int>mult { {'a',10},{'b',20},{'b',15}, {'c',30} };
+      pair<multimap<char,int>::iterator,multimap<char,int>::iterator> iters = mult.equal_range('b');
+      cout<<iters.first->first<<" "<<iters.first->second<<endl;
+      cout<<iters.second->first<<" "<<iters.second->second<<endl;
+      cout<<mult.count('b');
+  //result
+  //b 20
+  //c 30
+  //2
+  ```
+
+#### set
+
+和 map、multimap 容器不同,使用 set 容器存储的各个键值对,要求键 key 和值 value 必须相等。所以没有at()、operator[]的成员函数。
+
++ 与map相同，set会对容器内的元素自动排序，且因为键与值是相同的，对键进行排序等同于对值进行排序。使用 set 容器存储的各个元素的值必须各不相同。
++ C++ 标准为了防止用户修改容器中元素的值,对所有可能会实现此操作的行为做了限制,使得在正常情况下,用户是无法做到修改 set 容器中元素的值的。切勿尝试直接修改 set 容器中已存储元素的值,这很有可能破坏 set 容器中元素的有序性,最正确的修改 set 容器中元素值的做法是:先删除该元素,然后再添加一个修改后的元素。
++ set的迭代器是双向的，set的迭代器不再指向键值对，而是元素，通过*iter可以获取迭代器对应元素的值。
++ insert()、emplace()、erase()、clear()操作方式与map相同
++ multiset 容器和 set 容器唯一的差别在于,multiset 容器允许存储多个值相同的元素,而 set 容器中只能存储互不相同的元素。
+

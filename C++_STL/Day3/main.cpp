@@ -2,8 +2,11 @@
 #include <utility>
 #include <string>
 #include <map>
+#include <set>
 //#define PAIR
-#define MAP
+//#define MAP
+//#define MULTIMAP
+#define SET
 
 using namespace std;
 
@@ -29,7 +32,9 @@ int main() {
     map<string,int>m3(m2);
     map<string,int>m4{make_pair("k4",4),make_pair("k5",5)};
     map<string,int>m5{++m2.begin(),m2.end()};
+
     map<string,int,greater<string>> m6{{"k6",6},{"k7",7}};
+
 //    ==========find(key)===============
     auto iter = m2.find("k2");
     if(iter!=m2.end())cout<<iter->first<<" "<<iter->second<<endl;
@@ -39,6 +44,52 @@ int main() {
     }cout<<endl;
     iter = m2.lower_bound("k2");
     cout<<iter->second<<endl;
+//  ===========insert()===============
+//  ===========emplace()===============
+    m1.emplace("key",100);
+//  ===========erase()===============
+    iter = m2.begin();
+    cout<<iter->first<<endl;
+    m2.erase("k1");
+    cout<<iter->first<<endl;
+    cout<<m2.begin()->first<<endl;
+    m2.erase(m2.begin());
+    cout<<m2.begin()->first<<endl;
+    m4.erase(++m4.begin(),m4.end());
+    for(auto iter=m4.begin();iter!=m4.end();iter++){
+        cout<<iter->first<<" ";
+    }
+
+#endif
+#ifdef MULTIMAP
+    multimap<char,int>mult { {'a',10},{'b',20},{'b',15}, {'c',30} };
+    pair<multimap<char,int>::iterator,multimap<char,int>::iterator> iters = mult.equal_range('b');
+    cout<<iters.first->first<<" "<<iters.first->second<<endl;
+    cout<<iters.second->first<<" "<<iters.second->second<<endl;
+    cout<<mult.count('b');
+
+#endif
+#ifdef SET
+//    ==============init===============
+    set<int> s1;
+    set<int> s2{5,3,2,1,4,6};
+    set<int> s3(s2);
+    set<int> s4(s2.begin(),--s2.end());
+    set<int,greater<int>> s5{1,2,3,4,5,6};
+    cout<<*(s2.begin())<<endl;
+
+    std::set<std::string> myset{ "java",
+                                 "stl",
+                                 "python"
+    };
+    for(auto iter=myset.begin();iter!=myset.end();++iter){
+        cout<<*iter<<endl;
+    }
+    set<int>::iterator iter = s2.erase(s2   .begin()); //删除元素 1,myset={3,4,5}
+    cout << "s2 size = " << s2.size() << endl;
+    cout << "iter->" << *iter << endl;
+    s2.clear();
+    cout<<s2.size();
 #endif
     return 0;
 }
