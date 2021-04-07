@@ -367,7 +367,24 @@ map是一种关联容器，其存储的都是pair对象。
   //k2 2
   ```
 
-+ lower_bound(key)，返回一个指向当前 map 容器中第一个大于或等于 key 的键值对的双向迭代器。*upper_bound(key)、equal_range(key)有类似功能。
++ lower_bound(key)，返回一个指向当前 map 容器中第一个大于或等于 key 的键值对的双向迭代器。*upper_bound(key)、equal_range(key)有类似功能。*
 
-+ 插入、删除，
+  **lower_bound(key) 和 upper_bound(key) 更多用于 multimap 容器,在 map 容器中很少用到。**因为map容器中各键值对都是唯一的。
 
++ 查询操作：当用operator[]查询对应键值对时，若容器不含有所查询的键值则会在容器中添加该键，其值编译器自动赋值。相反at()操作则不会创建不存在的键值对，而是抛出异常。**基本目前遇见的容器，at()这个方法都自带边界检测的功能，相应的效率较低。**
+
++ insert()，插入操作：当使用 insert() 方法向 map 容器的指定位置插入新键值对时,其底层会先将新键值对插入到容器的指定位置,如果其破坏了 map 容器的有序性,该容器会对新键值对的位置进行调整。**指不指定插入位置都有可能会被重新排序。**
+
+  ```c++
+  //1、引用传递一个键值对
+  pair<iterator,bool> insert(const value_type& val);
+  //2、以右值引用的方式传递键值对（好像时用于临时变量操作的）
+  pair<iterator,bool> insert (P&& val);
+  //3、将其他map指定区域插入到当前map中
+template <class InputIterator>
+  void insert (InputIterator first, InputIterator last);
+  //4、插入多个键值对
+  void insert ({val 1 , val 2 , ...});
+  ```
+  
+  返回一个迭代器和一个布尔变量，若成功，迭代器指向val。若失败，迭代器指向容器中相同键值对p，且不会改变p键值对的值。

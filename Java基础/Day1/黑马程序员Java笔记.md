@@ -24,10 +24,13 @@
 
 + 数组声明不能指定其长度，与c不同。
 
-  ```java
-  int array[10];   //error
+  ```c++
+  int array[10];   //java error
+  int* a;
+a = new int(10);
+  delete [] a;
   ```
-
+  
   数组的初始化分静态和动态。
   
   ```java
@@ -36,6 +39,14 @@
   int[] array2 = {1,2,3};
   //动态
   int[] array3 = new int[10];
+  //获取数组长度
+  int len = array1.length
   ```
   
+  数组的长度可以通过其成员返回。
+  
 + 分配内存空间
+
+  初始化=定义数组+分配空间+赋值
+
++ 
