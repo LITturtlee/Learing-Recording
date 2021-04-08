@@ -1,12 +1,14 @@
 #include <iostream>
 #include <utility>
 #include <string>
+#include <vector>
 #include <map>
+#include <algorithm>
 #include <set>
 //#define PAIR
 //#define MAP
-//#define MULTIMAP
-#define SET
+#define MULTIMAP
+//#define SET
 
 using namespace std;
 
@@ -62,11 +64,28 @@ int main() {
 
 #endif
 #ifdef MULTIMAP
-    multimap<char,int>mult { {'a',10},{'b',20},{'b',15}, {'c',30} };
-    pair<multimap<char,int>::iterator,multimap<char,int>::iterator> iters = mult.equal_range('b');
-    cout<<iters.first->first<<" "<<iters.first->second<<endl;
-    cout<<iters.second->first<<" "<<iters.second->second<<endl;
-    cout<<mult.count('b');
+//    multimap<char,int>mult { {'a',10},{'b',20},{'b',15}, {'c',30} };
+////    multimap<int,vector<int>>{{10,{1,9}}};
+//    pair<multimap<char,int>::iterator,multimap<char,int>::iterator> iters = mult.equal_range('b');
+//    cout<<iters.first->first<<" "<<iters.first->second<<endl;
+//    cout<<iters.second->first<<" "<<iters.second->second<<endl;
+//    cout<<mult.count('b');
+    multimap<int,vector<int>> m{{10,{1,9}},{10,{3,7}},{10,{2,8}},{10,{2,8}},{10,{0,10}}};
+    for(auto  i:m){
+        cout<<i.first<<" "<<i.second[0]<<" "<<i.second[1]<<endl;
+    }
+    multimap<int,int> m2{{1,2},{1,5},{2,6},{2,9},{2,7}};
+    multimap<int,int> u;
+    for(auto  it = m2.begin();it!=m2.end();it++){
+        cout<<it->first<<" "<<it->second<<endl;
+        u.emplace(pair<int,int>(it->second,it->first));
+    }cout<<endl;
+    for(auto i:u){
+        cout<<i.first<<" "<<i.second<<endl;
+    }
+//    sort(m.begin(),m.end(),[=](pair<int,vector<int>> a,pair<int,vector<int>> b){      error
+//        return a.second[0]<b.second[0];
+//    });
 
 #endif
 #ifdef SET

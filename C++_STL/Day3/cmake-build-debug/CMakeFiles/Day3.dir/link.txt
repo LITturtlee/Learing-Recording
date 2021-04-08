@@ -1,1 +1,1 @@
-/usr/bin/c++  -g   CMakeFiles/Day3.dir/main.cpp.o  -o Day3 
+/usr/bin/c++ -g CMakeFiles/Day3.dir/main.cpp.o -o Day3 

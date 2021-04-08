@@ -13,7 +13,11 @@ utility
 -
 string
 -
+vector
+-
 map
+-
+algorithm
 -
 set
 -
