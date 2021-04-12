@@ -441,3 +441,34 @@ template <class InputIterator>
 + insert()、emplace()、erase()、clear()操作方式与map相同
 + multiset 容器和 set 容器唯一的差别在于,multiset 容器允许存储多个值相同的元素,而 set 容器中只能存储互不相同的元素。
 
++ **关联容器的排序规则**
+
+  重点是自定义个排序规则，定义排序规则的方式可以有：函数对象（重载operator()）、函数（传参时传函数指针）、重载关系运算符实现自定义排序。
+
+  自定义规则时注意，参数为两个容器元素类型的变量a,b，函数返回bool变量，返回true把a排b前，返回false把a排b后。
+
+  ```c++
+  set<string,compare> myset{"test","temporary","a"};
+  for(auto iter=myset.begin();iter!=myset.end();iter++){
+      cout<<*iter<<" ";
+  }cout<<endl;
+  //注意由于是以字符串的长度为准进行排序,因此其无法存储相同长度的多个字符串。
+  ```
+
++ **修改键值对的键**
+
+  所有关联式容器可以采用同一种解决思路,即先删除该键值对,然后再向容器中添加修改之后的新键值对。
+
+  map 和 multimap 容器用于存储类型为 pair<**const** K, V> 的键值对。显然,只要目标键值对存储在当前容器中,键的值就无法被修改。
+
+  总之,set 和 multiset 容器的元素类型没有用 const 修饰。所以从语法的角度分析,我们可以直接修改容器中元素的值,但一定不要修改元素的键。
+
+
+### Day 4
+
+哈希容器：unordered_map、unordered_multimap、unordered_set、unordered_multiset
+
+关联式容器的底层实现采用的树存储结构,更确切的说是红黑树结构，无序容器的底层实现采用的是哈希表的存储结构。
+
+
+

@@ -27,4 +27,23 @@
   | 静态变量(类变量)    | 用 static 修饰 | 类名.变量名或对象名.变量名 | 其生命周期取决于类的生命周期。类被垃圾回收机制彻底回收时才会被销毁 |
   | 局部变量            | 无修饰         | 作用域中直接使用           | 声明变量的作用域中                                           |
 
-+ 
+
+### 第三章 流程控制语句
+
+### 第四章 Java字符串的处理
+
++ String 字符串转整型 int 有以下两种方式:
+
+  Integer.parseInt(str)
+  Integer.valueOf(str).intValue()
+
++ 整型 int 转 String 字符串类型有以下 3 种方法:
+
+  String s = String.valueOf(i);
+
+  String s = Integer.toString(i);
+
+  String s = "" + i;
+
+  使用第三种方法相对第一第二种耗时比较大。
+

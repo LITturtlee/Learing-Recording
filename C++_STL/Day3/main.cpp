@@ -7,10 +7,63 @@
 #include <set>
 //#define PAIR
 //#define MAP
-#define MULTIMAP
-//#define SET
+//#define MULTIMAP
+#define SET
 
 using namespace std;
+class compare{
+public:
+    bool operator()(const string& a,const string& b){
+        return (a.length()<b.length());
+    }
+};
+class student{
+public:
+    student(string name, int id, int age):name(name),id(id),age(age){
+
+    }
+    const int& getid() const{
+        return id;
+    }
+    void setname(const string name){
+        this->name = name;
+    }
+    string getname() const{
+        return this->name;
+    }
+    void setage(int age){
+        this->age = age;
+    }
+    int getage() const{
+        return  age;
+    }
+    void display() const{
+        cout<<id<<" "<<name<<" "<<age<<endl;
+    }
+private:
+    string name;
+    int id;
+    int age;
+};
+class stucmp{
+public:
+    bool operator()(const student& a,const student& b){
+        return a.getid()<b.getid();
+    }
+};
+class mystr{
+    friend bool operator < (const mystr& a,const mystr& b);
+public:
+    mystr(string tempstr):str(tempstr){}
+    string getstr() const{
+        return str;
+    }
+private:
+    string str;
+};
+bool operator < (const mystr& a,const mystr& b){
+    return a.str.length()<b.str.length();
+}
 
 int main() {
 #ifdef PAIR
@@ -88,6 +141,8 @@ int main() {
 //    });
 
 #endif
+
+
 #ifdef SET
 //    ==============init===============
     set<int> s1;
@@ -97,18 +152,39 @@ int main() {
     set<int,greater<int>> s5{1,2,3,4,5,6};
     cout<<*(s2.begin())<<endl;
 
-    std::set<std::string> myset{ "java",
-                                 "stl",
-                                 "python"
-    };
-    for(auto iter=myset.begin();iter!=myset.end();++iter){
-        cout<<*iter<<endl;
-    }
-    set<int>::iterator iter = s2.erase(s2   .begin()); //删除元素 1,myset={3,4,5}
+//    std::set<std::string> myset{ "java",
+//                                 "stl",
+//                                 "python"
+//    };
+//    for(auto iter=myset.begin();iter!=myset.end();++iter){
+//        cout<<*iter<<endl;
+//    }
+//  ===================erase()================
+    set<int>::iterator iter = s2.erase(s2.begin()); //删除元素 1,myset={3,4,5}
     cout << "s2 size = " << s2.size() << endl;
     cout << "iter->" << *iter << endl;
     s2.clear();
-    cout<<s2.size();
+    cout<<s2.size()<<endl;
+//    ===================custom_sort==============
+    set<string,compare> myset{"test","temporary","a"};
+    for(auto iter=myset.begin();iter!=myset.end();iter++){
+        cout<<*iter<<" ";
+    }cout<<endl;
+//   ================set of student =================
+    set<student,stucmp> stus{{"zhangsan",2,88},{"lisi",1,100},{"wangwu",3,60}};
+    set<student>::iterator it = stus.begin();
+    for(;it!=stus.end();it++){
+        (*it).display();
+    }
+//    =============== set of mystr =============
+    set<mystr> mst;
+    mst.emplace("ttt");
+    mst.emplace("t");
+    mst.emplace("taaaaaatt");
+    for(auto iter=mst.begin();iter!=mst.end();iter++){
+        cout<<iter->getstr()<<" ";
+    }cout<<endl;
+
 #endif
     return 0;
 }
