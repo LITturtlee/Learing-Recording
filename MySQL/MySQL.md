@@ -292,6 +292,13 @@
 
 + mysql数据库默认的隔离级别是：可重复读。oracle数据库默认的隔离级别是：读已提交。
 
+  ```mysql
+  select @@transaction_isolation;             //查看隔离级别
+  set session transaction isolation level repeatable read;    //修改隔离级别
+  ```
+
+  
+
 #### 索引（低层B树）
 
 + 索引好比书的目录，通过目录可以快速找到对应资源。在数据库查询一张表的时候有俩检索方式：1、全表扫描2、根据索引检索（效率高）。
