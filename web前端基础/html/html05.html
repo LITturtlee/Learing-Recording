@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>表格合并以及th标签</head>
+    <body>
+        <!--
+            注意：行合并用rowspan 删除该元素的下一行
+                 列合并用colspan 删除那个元素没有影响
+        -->
+        <table border="5px" width="50%">
+            <tr>
+                <!--
+                    <td>字段1</td>
+                    <td>字段2</td>
+                    <td>字段3</td>
+                -->
+                <!--th标签也是单元格，多了加粗剧中-->
+                <th>字段1</th>
+                <th>字段2</th>
+                <th>字段3</th>
+                
+                
+            </tr>
+            <tr>
+                <td colspan="2">1</td>
+                <!--下面还有几行这里最大就可以填几行-->
+                <td rowspan="2">c</td>
+            </tr>
+            <tr>
+                <td>d</td>
+                <td>e</td>
+                <!--
+                    删除对应需要合并列的下一行
+                    <td>f</td>
+                -->
+                
+            </tr>
+        </table>
+    </body>
+</html>

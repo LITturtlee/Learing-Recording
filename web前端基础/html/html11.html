@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>注册表</title>
+    </head>
+    <body>
+        <!--所以要提交的东西都的有name  对于非输入区域都的有value-->
+        <!--method = post  不在地址栏显示用户输入-->
+        <form action="http://localhost:8080/so/save" method="get">
+            <!--隐藏域，网页不显示，但提交时会上传-->
+            <input type="hidden" name="userid" value="111">
+            用户名
+            <input type="text" name="username">
+            <br>
+            密码
+            <input type="password" name="userpwd">
+            <br>
+            确认密码
+            <input type="password">
+            <br>
+            性别
+            <input type="radio" name="gender" value="1" checked>男
+            <input type="radio" name="gender" value="0">女
+            <br>
+            兴趣爱好
+            <input type="checkbox" name="interest" value="smoke" checked>抽烟
+            <input type="checkbox" name="interest" value="drink">喝酒
+            <input type="checkbox" name="interest" value="fireHair">烫头
+            <br>
+            学历
+            <select name="grade">
+                <option value="highshchool" selected>高中</option>
+                <option value="graduate">本科</option>
+                <option value="master">硕士</option>
+            </select>
+            <br>
+            简介<!--文本域无value属性-->
+            <textarea rows="10" cols="50" name="introduce"></textarea>
+            <br>
+            <input type="submit" value="提交">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="reset" value="清空">
+        </form>
+        <a href="http://localhost:8080/so/save?username=11">提交</a><br>
+        <!--multiple="multiple"可以多选 size显示几个-->
+        <select multiple="multiple" size="2">多选
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+        <br>
+        <!--file控件 文件专用-->
+        <input type="file">
+    </body>
+</html>
