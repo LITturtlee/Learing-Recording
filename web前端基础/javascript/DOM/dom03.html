@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>HTML中嵌入js,方式3</title>
+    </head>
+    <body>
+        <script type="text/javascript">
+            function displayTime(){
+                var data = new Date()
+                document.getElementById('time').innerText = data.toLocaleString()
+            }
+
+            window.onload = function(){
+                var btn = document.getElementById('start')
+                var btn2 = document.getElementById('end')
+                var btn3 = document.getElementById('change')
+
+                btn.onclick = function(){
+                    // var data = new Date()
+                    // document.getElementById('time').innerText = displa
+                    // display()
+                    v =  window.setInterval("displayTime()",1000)
+                }
+                btn2.onclick = function(event){
+                    alert(event)
+                    window.clearInterval(v)
+                }
+                btn3.onclick = function(){
+                    if(window.top!= window.self){
+                        window.top.location = window.self.location
+                    }
+                }
+                
+            }
+        </script>
+        <input type="button" value="开始" id="start">
+        <span id = 'time'></span>
+        <br>
+        <input type="button" value="停止" id="end">
+        <br> 
+        <input type="button" value="切换" id="change">
+    </body>
+</html>

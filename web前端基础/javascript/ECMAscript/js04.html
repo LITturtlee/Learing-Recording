@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>HTML中嵌入js,方式3</title>
+    </head>
+    <body>
+        <script type="text/javascript">
+            function sum(a,b){
+                alert(a+b);
+            }
+            function hello(){
+                alert("hello world");
+            }
+            // alert(isNaN(1))
+            var b =  "www.ppp";
+            while(b.indexOf("w")>=0){
+                b = b.replace("w","q")
+            }
+            // b = b.replace("www","aaa");
+            
+            alert("b is " + b);
+            alert("www".replace("w","&"));
+            var str="Visit Microsoft!"
+            document.write(str.replace("Microsoft", "W3School"))
+        </script>
+        <input type="button" value="hello" onclick="hello();">
+        <br>
+        <input type="button" value="1+2" onclick="sum('12',1);">
+    </body>
+</html>

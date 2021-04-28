@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>HTML中嵌入js,方式3</title>
+    </head>
+    <body>
+        <script type="text/javascript">
+            window.onload=function(){
+                document.getElementById('btn').onclick=function(){
+                    document.getElementById('text2').value=document.getElementById('text1').value
+                }
+            }
+        </script>
+        <input type="text" id='text1'>
+        <input type="text" id='text2'>
+        <input type="button" id='btn'>
+        <hr>
+        <input type="text" onblur="alert(this.value)">
+        <!-- <input type="text" onblur="alert(value)"> -->
+    </body>
+</html>

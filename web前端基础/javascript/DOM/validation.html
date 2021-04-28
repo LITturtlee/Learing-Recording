@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>表单验证</title>
+    </head>
+    <body>
+        <style type="text/css">
+            span{
+                font: 12;
+                color: red;
+            }
+        </style>
+        <script type="text/javascript">
+            window.onload = function(){
+                var userNameEle = document.getElementById("userName")
+                var userPwd1Ele = document.getElementById("userPwd1")
+                var userPwd2Ele = document.getElementById("userPwd2")
+                var userEmailEle = document.getElementById("userEmail")
+                var userNameError = document.getElementById("userNameError")
+                var userPwd1Error = document.getElementById("userPwd1Error")
+                var userPwd2Error = document.getElementById("userPwd2Error")
+                var userEmailError = document.getElementById("userEmailError")
+                var submitEle = document.getElementById("submitBtn")
+                
+                userNameEle.onblur = function(){
+                    // if(userNameVal){
+                    // }                    
+                    // else{
+                    //     userNameError.innerText = "用户名不能为空"
+                    // }
+                    //var re = /^[A-Za-z0-9]{4,9}$/g
+                    //if(re.test(userNameVal))
+                    var userNameVal = userNameEle.value
+                    userNameVal = userNameVal.trim()
+                    if(userNameVal==""){
+                        userNameError.innerText = "用户名不能为空"
+                    }
+                    else{
+                        var re = /^[A-Za-z0-9]{4,9}$/g
+                        if(re.test(userNameVal))
+                        {}
+                        else{
+                            userNameError.innerText = "用户名不合法"
+                        }
+                    }
+                }
+
+                userNameEle.onfocus = function(){
+                    if(userNameError.innerText!="")
+                    {
+                        userNameEle.value = ""
+                    }
+                    userNameError.innerText = ""
+                    
+                }
+
+                userPwd2Ele.onblur = function(){
+                    if(userPwd1Ele.value!=userPwd2Ele.value){
+                        userPwd2Error.innerText= "密码不一致"
+                    }
+
+                }
+                userPwd2Ele.onfocus =function(){
+                    if(userPwd2Error.innerText!=""){
+                        userPwd2Ele.value = ""
+                    }
+                    userPwd2Error.innerText=""
+                }
+                
+                userEmailEle.onblur = function(){
+                    var re = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/g
+                    if(re.test(userEmailEle.value)){}
+                    else{
+                        userEmailError.innerText = "邮箱格式错误"
+                    }
+                }
+                userEmailEle.onfocus=function(){
+                    if(userEmailError.innerText!=""){
+                        userEmailEle.value=""
+                    }
+                    userEmailError.innerText=""
+                }
+
+                submitEle.onclick = function(){
+                    userNameEle.focus()
+                    userNameEle.blur()
+                    userPwd2Ele.focus()
+                    userPwd2Ele.blur()
+                    userEmailEle.focus()
+                    userEmailEle.blur()
+                    if(userEmailError.innerText==""&&userPwd2Error.innerText==""&&userNameError.innerText==""){
+                        var userFormEle = document.getElementById("userForm")
+                        userFormEle.submit()
+                    }
+                    
+                }
+                
+
+            }
+        </script>
+        <form action="http://localhost:8080/so/save" method="get" id="userForm">
+            用户名<input type="text" id="userName" name="userName">
+            <span id="userNameError"></span>
+            <br>
+            用户秘密<input type="text" id="userPwd1" name="userPwd">
+            <span id="userPwd1Error"></span>
+            <br>
+            确认密码<input type="text" id="userPwd2">
+            <span id="userPwd2Error"></span>
+            <br>
+            邮箱<input type="text" id="userEmail" name="userEmail">
+            <span id="userEmailError"></span>
+            <br>
+            <input type="button" value="提交" id="submitBtn">
+            <input type="reset" value="重置" id="reset">
+        </form>
+        <br>
+        <input type="checkbox" id="all"><br>
+        <input type="checkbox" name="hobits" value="1">1<br>
+        <input type="checkbox" name="hobits" value="2">2<br>
+        <input type="checkbox" name="hobits" value="3">3<br>
+    </body>
+
+    <script type="text/javascript">
+        window.onload = function(){
+            var allCb = document.getElementById("all")
+            var hobits = document.getElementsByName("hobits")
+            allCb.onclick = function(){
+                for(var i=0;i<hobits.length;i++){hobits[i].checked=allCb.checked}
+            }
+            for(var i=0;i<hobits.length;i++){
+                hobits[i].onclick = function(){
+                    var count = 0
+                    var all = hobits.length
+                    for(var i=0;i<hobits.length;i++){
+                        if(hobits[i].checked)count++
+                    }
+                    // if(count==all){
+                    //     document.getElementById("all").checked=true
+                    // }
+                    // else{
+                    //     document.getElementById("all").checked=false
+                    // }
+                    allCb.checked=(all==count)
+                }
+            }
+        }
+
+    </script>
+</html>

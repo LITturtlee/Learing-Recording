@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>HTML中嵌入js,方式3</title>
+    </head>
+    <body>
+        <!--方式1-->
+        <input type="button" value="button1" onclick="func1()">
+        <br>
+        <!--方式2--> 
+        <input type="button" value="button2" id="button2">
+        <br>
+        <!--方式2匿名函数-->
+        <input type="button" value="button3" id="button3">
+        <script type="text/javascript">
+            function func1(){alert("func1")}
+            var butobj = document.getElementById("button2")
+            butobj.onclick = func1
+            document.getElementById("button3").onclick=func1
+        </script>
+    </body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>HTML中嵌入js,方式3</title>
+    </head>
+    <body>
+        <script type="text/javascript">
+            function User(userNo,userName,userAge){
+                this.userNo = userNo
+                this.userName =userName
+                this.userAge = userAge
+                temp = 1
+                this.sayHello=function(){
+                   alert("你好"+userName)
+                }
+            }
+            User.prototype.getAge = function(){
+                alert("您今年:"+this.userAge)
+            }
+            var user = new User(1,'Ng',24)
+            // alert(user.userAge+" "+user["userName"])
+            user.sayHello()
+            // alert(userName)  //error 
+            alert(temp)    //1  temp是全局变量
+            user.getAge()
+        </script>
+        <input type="button" value="123">
+    </body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>HTML中嵌入js,方式3</title>
+    </head>
+    <body>
+        <script type="text/javascript">
+            window.onload = function(){
+                var textObj = document.getElementById('text1')
+                textObj.onkeydown = function(event){
+                    // alert("keydown")
+                    //获取键值
+                    if(event.keyCode==13){alert("loading")}
+                    if(event.keyCode==27){alert("exitting")}
+                    // alert(event)
+                }
+            }
+        </script>
+        <input type="text" id='text1'>
+        <br>
+        <a href="" onclick="alert('test code')">test1</a>
+        <br>
+        <a href="javascript:void(0)" onclick="alert('test code')">test2</a>
+    </body>
+</html>
