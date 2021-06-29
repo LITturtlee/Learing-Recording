@@ -2,16 +2,16 @@
 ## url
 * url:统一资源定位符（网络中某个资源的绝对路径），url包括协议、IP、PORT、资源名
 * Connection conn = null;
-Statement stmt =null;
-try{
+	Statement stmt =null;
+	try{
 	DriverManger.registerDriver(new com.mysql.jdbc.cj.Driver());
 	conn = DriverManger.getConnection(“jdbc:mysal://localhost:3306/bjpowernode”,”root”,”970216”);   jdbc sql语句不要分号
 	stmt = conn.createStatement();
 	String sql = “delete from dept where deptno = 40”;
 	int count = stmt.executeUpdate(sql); count是返回操作数据的条数
-}catch(SQLException e){
+	}catch(SQLException e){
 	e.printStackTrace();
-}finally{
+	}finally{
 	if(stmt!=null){
 		try{
 			stmt.close();
@@ -27,7 +27,7 @@ try{
 		}
 	}
 * 第二种常用注册方式：
-Class.forName(“com.mysql.jdbc.Driver”);    该方式不需要接受返回值，只需要它的类加载动作，常用这种方式是因为参数是字符串，可以写到xxx.properties文件中。
+Class.forName(“com.mysql.jdbc.Driver”);    该方式不需要接受返回值，只需要它的类加载动作，**为啥只需要一句话，因为该类的静态代码块中已经帮我们注册了驱动了。**，常用这种方式是因为参数是字符串，可以写到xxx.properties文件中。
 * 实际开发中不建议在程序中把数据库信息写死到java程序中
 import java.sql.*;
 Import java.until.*;
@@ -88,3 +88,30 @@ select ENAME,JOB,SAL from EMP where JOB = 'MANGER' for update
 通过在语句后加for update将会对指定行进行行级锁，若此事务没结束时这些记录无法被其他事务修改。
 
 悲观锁事务必须排队，数据锁住了，不允许并发。 乐观锁：支持并发，事务也不需要排队，只不过需要一个版本号，当事务提交阶段发现版本号变化则回滚。
+
+## 连接池
+
++ 一般业务中为了避免资源重复新建和删除利用连接池提高效率。
++ 同时连接池的存在能够避免服务器在高并发的情况下崩溃。
+
+## dbutils
+
++ ResultSettHandler接口是用来处理查询结果的，可以在这个接口中实现将结果封装成对象。
+
++ 用jar包中自带的实现接口类BeanHander好处理，但是对于当entity类与数据库中字段名不同时，不一定能映射正确，这时可以手写hanler进行自定义映射。
+
+  ```java
+  new ResultSetHandler<List<User>>(){
+  @Override
+  public List<User> users = new ArrayList<>();
+  while(rs.next(){
+  String name = rs.getString("name");
+  String password = rs.getString("password");
+  users.add(new User(name,password));
+  return users
+  })
+  }
+  ```
+
+  
+

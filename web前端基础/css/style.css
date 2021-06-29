@@ -1,0 +1,16 @@
+.item{
+    height: 200px;
+    width: 200px;
+    border: 1px solid rgb(4, 88, 39);
+    background: rgb(85, 10, 155);
+    display: inline-block;
+    /* margin-left: 20px; */
+    padding: 10px;
+    margin: 10px 10px 0px 0px ; /*上右下左*/
+    box-sizing: border-box;
+}
+.container{
+    /* width: 400px; */
+    background-color: aqua;
+    padding: 10px;
+}
