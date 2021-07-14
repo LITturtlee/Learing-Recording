@@ -71,6 +71,10 @@
 
   对于静态资源，Tomcat最后会交由一个叫做DefaultServlet的类来处理。对于Servlet ，Tomcat最后会交由一个叫做 InvokerServlet的类来处理。对于JSP，Tomcat最后会交由一个叫做JspServlet的类来处理。[Tomcat学艺-Tomcat中对静态资源的访问也会用servlet来处理吗？_诸君拔剑吧.-CSDN博客](https://blog.csdn.net/zaimeiyeshicengjing/article/details/105858015)
 
+### Cookie And Session
+
++ [服务器端Session和客户端Session（和Cookie区别）_曾梦想仗剑走天涯的博客-CSDN博客_session是在服务器还是在客户端](https://blog.csdn.net/java_faep/article/details/78082802)
+
 ## 第三章 jsp入门学习
 
 + 本质就是servlet
