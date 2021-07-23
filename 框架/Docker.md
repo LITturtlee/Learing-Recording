@@ -192,5 +192,9 @@
 
 + ```shell
   docker run -p 8301:8201 -v /opt/backstage_proj/leshan/lszz-0.0.1-SNAPSHOT.jar:/opt/backsttage_proj/tmp02/lszz-0.0.1-SNAPSHOT.jar --name ls_bk02 docker.io/openjdk:8 java -jar /opt/backstage_proj/tmp02/lszz-0.0.1-SNAPSHOT.jar
+  
+   docker logs -f  Guangfu --tail 1000
+   
+  docker run --net host -v /home/guangfu/app:/usr/local/jar  -v /etc/localtime:/etc/localtime:ro -v /etc/timezone/timezone:/etc/timezone/ --name Guangfu openjdk:8 java -jar -Duser.timeZone=Asia/Shanghai /usr/local/jar/base-0.0.1-SNAPSHOT.jar
   ```
 

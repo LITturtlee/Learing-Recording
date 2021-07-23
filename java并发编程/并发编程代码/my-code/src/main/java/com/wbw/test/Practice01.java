@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class Practice01 {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Thread t1 = new Thread(() -> {
             log.debug("洗水壶");
             Sleeper.sleep(1);
@@ -31,7 +31,10 @@ public class Practice01 {
             }
             log.debug("泡茶");
             },"小王");
+
         t1.start();
         t2.start();
+        t1.join();
+
     }
 }

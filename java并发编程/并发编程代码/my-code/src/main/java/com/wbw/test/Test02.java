@@ -33,6 +33,9 @@ public class Test02 {
                 test.method1(LOOP_NUMBER);
             }, "Thread" + i).start();
         }
+
+        double d = 2222222.1111111111;
+        System.out.println(d);
     }
 }
 
